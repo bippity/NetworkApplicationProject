@@ -10,3 +10,7 @@ Use mininet to implement a network application that allows a user to use C to re
 C, R and S must run on different hosts simulated using mininet and use the protocol designed by the team for communications.
 For media file types, at the minimum text files must be supported but audio (e.g. MP3s) and video (e.g. MP4) files should be considered and if implemented will earn extra credits.
 Details of the application will be discussed in class.
+
+C = controller/client
+R = renderer/translates the data into the file type
+S = server
