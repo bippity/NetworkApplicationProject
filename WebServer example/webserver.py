@@ -20,7 +20,8 @@ print("Socket bind complete")
 serverSocket.listen(2)
 print("Socket now listening")
 
-while True:
+filename = ""
+while filename != "/quit":
 #Establish the connection
     #Accept all incoming connections
     connectionSocket, addr = serverSocket.accept()
@@ -33,21 +34,23 @@ while True:
         print("message = " + str(message))
         #obtain file name carried by HTTP request message
         filename = message.split()[1]
+		
         print("filename = " + str(filename))
         f = open(filename[1:])
         outputdata = f.read()
         #Send HTTP response header line to the client/connection socket
-        connectionSocket.send(bytes("HTTP/1.1 200 OK\r\n", "UTF-8"))
+        connectionSocket.send(bytes("HTTP/1.1 200 OK\n"))
         #send content of requested file to client
-        connectionSocket.send(bytes(outputdata, "UTF-8"))
+        connectionSocket.send(bytes(outputdata))
         #close connectionSocket
         connectionSocket.close()
         print("Connection closed!")
 
     except IOError:
         #Send response message for invalid file
-        connectionSocket.send(bytes("HTTP/1.1 404 Not Found\r\n"))
+        connectionSocket.send(bytes("HTTP/1.1 404 Not Found\n"))
         connectionSocket.close()
 
 
 serverSocket.close()
+print("Socket closed, exiting!")

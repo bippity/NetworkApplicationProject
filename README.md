@@ -14,3 +14,7 @@ Details of the application will be discussed in class.
 C = controller/client
 R = renderer/translates the data into the file type
 S = server
+
+------------------
+Environment:
+* Mininet 2.2.2 - Ubuntu 14.04 LTS - 32 bit
