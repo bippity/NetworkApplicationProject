@@ -5,6 +5,7 @@ Environment:
 
 * Run the program with "sudo python3 programName"
 * Decode messages to UTF-8 before comparing (https://stackoverflow.com/questions/6269765/what-does-the-b-character-do-in-front-of-a-string-literal)
+    
     EX: b'hello' is a Bytes literal, convert to "hello" using .decode("utf-8")
     b = b'hello'
     print(b.decode("utf-8"))
