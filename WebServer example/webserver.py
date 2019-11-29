@@ -11,7 +11,8 @@ try:
     #bind the socket to localhost under port 80
     serverSocket.bind(('', port))
 except socket.error as msg:
-    print("Bind failed. Error Code: " + str(msg[0]) + "Message: " + msg[1])
+    #print("Bind failed. Error Code: " + str(msg[0]) + "Message: " + msg[1])
+    print("Bind failed. Error: " + str(msg))
     sys.exit()
 print("Socket bind complete")
 
@@ -33,22 +34,22 @@ while filename != "/quit":
         message = connectionSocket.recv(1024)
         print("message = " + str(message))
         #obtain file name carried by HTTP request message
-        filename = message.split()[1]
+        filename = message.split()[1].decode("utf-8")
 		
         print("filename = " + str(filename))
         f = open(filename[1:])
         outputdata = f.read()
         #Send HTTP response header line to the client/connection socket
-        connectionSocket.send(bytes("HTTP/1.1 200 OK\n"))
+        connectionSocket.send(bytes("HTTP/1.1 200 OK\n", "UTF-8"))
         #send content of requested file to client
-        connectionSocket.send(bytes(outputdata))
+        connectionSocket.send(bytes(outputdata, "UTF-8"))
         #close connectionSocket
         connectionSocket.close()
         print("Connection closed!")
 
     except IOError:
         #Send response message for invalid file
-        connectionSocket.send(bytes("HTTP/1.1 404 Not Found\n"))
+        connectionSocket.send(bytes("HTTP/1.1 404 Not Found\n", "UTF-8"))
         connectionSocket.close()
 
 
