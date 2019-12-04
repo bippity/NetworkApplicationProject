@@ -18,6 +18,8 @@ Environment:
 * Each program needs a socket. But only the Renderer/Server need to listen to messages that might be received.
 The Controller only needs a socket to send messages.
 
+* Follow this guide to setup GUI/OpenFlow/xTerm - https://github.com/mininet/openflow-tutorial/wiki
+
 General Successful Flow
 --------------
 1) Controller requests a list of files from Server
