@@ -49,7 +49,7 @@ def testCommand():
     msg = "Hello there Server!"
 
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverIP = "192.168.56.4"
+    serverIP = "192.168.56.104"
     port = 1234
     clientSocket.connect((serverIP, port))
 
