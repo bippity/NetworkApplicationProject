@@ -4,6 +4,7 @@
 # Tells the Renderer to request a file from the Server
 ###
 
+import socket
 import sys
 
 def getMenuInput():
@@ -42,6 +43,18 @@ def openServerFile():
 def closeServerFile():
     print("Closing file")
 
+# Test function to send a string to Server
+def testCommand():
+    print("Sending message to server")
+    msg = "Hello there Server!"
+
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serverIP = "192.168.56.4"
+    port = 1234
+    clientSocket.connect((serverIP, port))
+
+    clientSocket.send(msg.encode("ascii"))
+
 
 # Map inputs to functions
 val = int
@@ -49,7 +62,8 @@ while val != 4:
     val = getMenuInput()
 
     if val == 1:
-        getServerFiles()
+        #getServerFiles()
+        testCommand()
     elif val == 2:
         openServerFile()
     elif val == 3:
