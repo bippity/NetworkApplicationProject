@@ -18,4 +18,4 @@ S = server
 ------------------
 Environment:
 * Mininet 2.2.2 - Ubuntu 14.04 LTS - 32 bit
-* Python3 (3.4.3)
+* Python2 (2.7.6) - default python command
