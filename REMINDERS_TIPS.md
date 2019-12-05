@@ -31,6 +31,7 @@ Mininet Reminders/Tips
     ``` sudo mn -c ```
 * Default switch (s1) runs in root network -> same thing as regular terminal/host
 * You should be running commands from a SSH terminal (Putty[windows]/Terminal[Mac]), not directly in Mininet VM.
+* "xterm h1 h2", not "h1 h2 xterm"
 
 General Successful Flow
 --------------
