@@ -12,3 +12,5 @@ Simple repo to test sending a message
     
 * Server should receive the message that client sends
 and then send it back to client.
+
+https://stackoverflow.com/questions/34653875/python-how-to-send-data-over-tcp
