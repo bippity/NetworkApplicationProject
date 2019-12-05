@@ -15,8 +15,8 @@ from mininet.cli import CLI
 def main():
     setLogLevel('info')
     
-    #Create single switch connected to n hosts
-    net = Mininet(SingleSwitchTopo(n=3))
+    #Create single switch connected to k hosts
+    net = Mininet(SingleSwitchTopo(k=3))
     net.start()
     
     #Start mininet Command Line Prompt

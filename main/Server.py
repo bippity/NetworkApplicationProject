@@ -1,11 +1,13 @@
 
+import base64
 import json
 import os
 from os import listdir
 from os.path import isfile, join
-#from pathlib import Path
 import socket
 import sys
+import utils
+from utils import *
 
 
 def startServer():
@@ -17,10 +19,10 @@ def startServer():
     try:
         #Bind socket to localhost under defined port
         serverSocket.bind(('', port))
+        print("Socket bind complete")
     except socket.error as msg:
         print("Bind failed. Error: " + str(msg))
         sys.exit()
-    print("Socket bind complete")
     
     #Start listening on socket
     # 2 connections kept waiting if server busy. 3rd socket will be refused
@@ -40,16 +42,22 @@ def startServer():
             message = connectionSocket.recv(1024)
             print("Message: " + str(message))
             
-                        
-            if message == "GIVE ME THE FILES":
+            # Decode the message
+            message = utils.json_loads_byteified(message)
+            type = message.get("type")
+            
+            if type == MessageTypes.FETCH:
                 files = listFiles()
                 print("Files: " + str(files))
                 #Convert list to JSON to send across socket
                 data = json.dumps({"Content": files})
-                connectionSocket.sendall(data.encode('utf-8'))
+                connectionSocket.sendall(data)
                 
-            elif message == "quit":
+            elif type == MessageTypes.EXIT:
                 enabled = False
+                data = json.dumps({"Content": "[SERVER] shutting down"})
+                connectionSocket.sendall(data)
+
             
             # Close connectionSocket            
             connectionSocket.close()
@@ -60,7 +68,9 @@ def startServer():
             print("IOError detected!")
             connectionSocket.close()
             
+    serverSocket.shutdown(socket.SHUT_RDWR)
     serverSocket.close()
+    print("Exiting...")
     
     
 # Returns a list of files inside the "files" directory
@@ -68,8 +78,14 @@ def listFiles():
     data_folder = os.path.normpath("files")
     print("Getting files in: " + data_folder)
     files = [f for f in listdir(data_folder) if isfile(join(data_folder, f))]
+    files.sort()
     return files
 
 
+# Encode the data and send it
+def sendFile(connSocket, rawData):
+    payload = {}
+    payload['content'] = base64.b64encode(rawData)
+
+
 startServer()
-#print(listFiles())
