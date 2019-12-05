@@ -5,7 +5,8 @@ Simple repo to test sending a message
 2. Pull up the xterms for both hosts
     ```xterm h1 h2```
 3. Run the client/server program on each host
-    ```python server.py //run this first
+    ```
+       python server.py //run this first
        python client.py
     ```
     
