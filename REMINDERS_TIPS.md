@@ -1,6 +1,8 @@
 Environment:
 * Mininet 2.2.2 - Ubuntu 14.04 LTS - 32 bit
 * Python3 (3.4.3)
+
+* Look at this if no host-only adapter selected (https://askubuntu.com/questions/198452/no-host-only-adapter-selected)
 ------------
 
 * Run the program with "sudo python3 programName"
@@ -19,6 +21,16 @@ Environment:
 The Controller only needs a socket to send messages.
 
 * Follow this guide to setup GUI/OpenFlow/xTerm - https://github.com/mininet/openflow-tutorial/wiki
+
+
+Mininet Reminders/Tips
+--------------
+* Topology setup command:
+    ``` sudo mn --topo single,3 --mac```
+* Always cleanup Mininet using 
+    ``` sudo mn -c ```
+* Default switch (s1) runs in root network -> same thing as regular terminal/host
+* You should be running commands from a SSH terminal (Putty[windows]/Terminal[Mac]), not directly in Mininet VM.
 
 General Successful Flow
 --------------
