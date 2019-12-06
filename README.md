@@ -19,3 +19,5 @@ S = server
 Environment:
 * Mininet 2.2.2 - Ubuntu 14.04 LTS - 32 bit
 * Python2 (2.7.6) - default python command
+
+Video demonstration: https://www.youtube.com/watch?v=8gLFF0nxnjs
