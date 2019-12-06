@@ -1,5 +1,11 @@
+'''
+Server class
+Listens for requests made by the Controller and Renderer
+Sends a list of files to Controller
+Sends actual files to Renderer
+https://github.com/bippity/NetworkApplicationProject/
+'''
 
-import base64
 import json
 import os
 from os import listdir
@@ -9,16 +15,19 @@ import sys
 import utils
 from utils import *
 
+data_folder = os.path.normpath("files")
 
+
+#Start listen server
 def startServer():
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #So you won't have to wait for address to timeout
+    serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     print("Socket created!")
-
-    port = 1234
     
     try:
         #Bind socket to localhost under defined port
-        serverSocket.bind(('', port))
+        serverSocket.bind(('', Ports.SERVER))
         print("Socket bind complete")
     except socket.error as msg:
         print("Bind failed. Error: " + str(msg))
@@ -48,14 +57,18 @@ def startServer():
             
             if type == MessageTypes.FETCH:
                 files = listFiles()
-                print("Files: " + str(files))
                 #Convert list to JSON to send across socket
-                data = json.dumps({"Content": files})
+                data = json.dumps({"content": files})
                 connectionSocket.sendall(data)
+                
+            elif type == MessageTypes.REQUEST:
+                # Obtain file
+                fileName = message.get("content")
+                sendFile(connectionSocket, fileName)                
                 
             elif type == MessageTypes.EXIT:
                 enabled = False
-                data = json.dumps({"Content": "[SERVER] shutting down"})
+                data = json.dumps({"content": "[SERVER] shutting down"})
                 connectionSocket.sendall(data)
 
             
@@ -63,9 +76,13 @@ def startServer():
             connectionSocket.close()
             print("Connection closed!")
                 
-        except IOError:
+        except IOError as err:
             # Send response message for invalid file
-            print("IOError detected!")
+            print("IOError: " + str(err))
+            payload = {}
+            payload["type"] = MessageTypes.ERROR
+            payload["content"] = "File does not exist: " + fileName
+            connectionSocket.sendall(json.dumps(payload))
             connectionSocket.close()
             
     serverSocket.shutdown(socket.SHUT_RDWR)
@@ -75,17 +92,20 @@ def startServer():
     
 # Returns a list of files inside the "files" directory
 def listFiles():
-    data_folder = os.path.normpath("files")
-    print("Getting files in: " + data_folder)
     files = [f for f in listdir(data_folder) if isfile(join(data_folder, f))]
     files.sort()
     return files
 
 
 # Encode the data and send it
-def sendFile(connSocket, rawData):
+def sendFile(connSocket, fileName):
+    #Open file in read-binary
+    file = open(join(data_folder, fileName), "rb")
     payload = {}
-    payload['content'] = base64.b64encode(rawData)
-
+    payload["type"] = MessageTypes.RESPONSE
+    payload["fileName"] = fileName
+    payload["content"] = file.read()
+    data = json.dumps(payload)
+    connSocket.sendall(data)
 
 startServer()

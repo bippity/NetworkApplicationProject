@@ -1,13 +1,25 @@
-
+'''
+utils class
+Provides useful functions/classes
+https://github.com/bippity/NetworkApplicationProject/
+'''
 import json
 
-
+class Addresses:
+    CONTROLLER = "10.0.0.1"
+    SERVER = "10.0.0.2"
+    RENDERER = "10.0.0.3"
+    
+class Ports:
+    SERVER = 1234
+    RENDERER = 1235
+    
 class MessageTypes:
     FETCH = 0
-    CONTROL = 1
-    REQUEST = 2
-    REPLY = 3
-    EXIT = 4
+    REQUEST = 1
+    RESPONSE = 2
+    EXIT = 3
+    ERROR = 4
     
 #Efficiently decode unicode back to its original form from JSON
 #https://stackoverflow.com/questions/956867/how-to-get-string-objects-instead-of-unicode-from-json    
